@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Prépa Défi Viva Vente — Cas Magiline</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --teal-900:#0a4548;
+    --teal-700:#0e6e73;
+    --teal-600:#128086;
+    --teal-500:#1b9aa0;
+    --aqua-100:#e4f4f3;
+    --aqua-50:#f3faf9;
+    --wood-600:#a9754a;
+    --wood-100:#f6ece0;
+    --coral-600:#d85f2c;
+    --coral-100:#fdece2;
+    --ink:#1c2b2b;
+    --ink-soft:#526565;
+    --line:#dbe9e7;
+    --white:#ffffff;
+    --good:#2f8f5b;
+    --good-bg:#e7f5ee;
+    --bad:#c74a3a;
+    --bad-bg:#fbeae7;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0; background:var(--aqua-50); color:var(--ink);
+    font-family:'Inter',sans-serif; line-height:1.55;
+  }
+  h1,h2,h3,h4{font-family:'Poppins',sans-serif; margin:0 0 .4em; color:var(--teal-900);}
+  p{margin:.3em 0 .8em;}
+  .wrap{max-width:1100px; margin:0 auto; padding:0 20px 60px;}
+
+  /* ---------- header ---------- */
+  header.top{
+    background:linear-gradient(135deg,var(--teal-900),var(--teal-600));
+    color:#fff; padding:30px 20px 26px;
+  }
+  header.top .wrap{padding:0;}
+  .eyebrow{
+    display:inline-block; background:rgba(255,255,255,.16); border:1px solid rgba(255,255,255,.35);
+    padding:4px 12px; border-radius:999px; font-size:.78rem; letter-spacing:.04em; text-transform:uppercase;
+    margin-bottom:12px;
+  }
+  header.top h1{color:#fff; font-size:1.65rem; margin-bottom:.25em;}
+  header.top .sub{color:#d7eeec; font-size:1rem; max-width:680px;}
+  .countdown{
+    margin-top:16px; display:inline-flex; align-items:center; gap:10px;
+    background:rgba(255,255,255,.12); border:1px solid rgba(255,255,255,.3);
+    border-radius:12px; padding:10px 16px; font-size:.92rem;
+  }
+  .countdown strong{font-family:'Poppins',sans-serif; font-size:1.1rem;}
+
+  /* ---------- nav ---------- */
+  nav.tabs{
+    position:sticky; top:0; z-index:50; background:#fff; border-bottom:1px solid var(--line);
+    box-shadow:0 2px 8px rgba(10,69,72,.06);
+  }
+  nav.tabs .wrap{display:flex; gap:4px; overflow-x:auto; padding:0 20px;}
+  nav.tabs button{
+    flex:0 0 auto; border:none; background:transparent; cursor:pointer;
+    font-family:'Inter',sans-serif; font-weight:600; font-size:.86rem; color:var(--ink-soft);
+    padding:14px 14px 12px; border-bottom:3px solid transparent; white-space:nowrap;
+  }
+  nav.tabs button:hover{color:var(--teal-700);}
+  nav.tabs button.active{color:var(--teal-700); border-bottom-color:var(--teal-600);}
+  nav.tabs button .dot{
+    display:inline-block; width:7px; height:7px; border-radius:50%; background:var(--line);
+    margin-right:7px; vertical-align:middle;
+  }
+  nav.tabs button.visited .dot{background:var(--good);}
+
+  main{padding-top:26px;}
+  section.panel{display:none;}
+  section.panel.active{display:block; animation:fade .25s ease;}
+  @keyframes fade{from{opacity:0; transform:translateY(6px);} to{opacity:1; transform:none;}}
+
+  .card{
+    background:#fff; border:1px solid var(--line); border-radius:14px; padding:22px 24px;
+    margin-bottom:18px; box-shadow:0 1px 3px rgba(10,69,72,.05);
+  }
+  .grid2{display:grid; grid-template-columns:1fr 1fr; gap:16px;}
+  .grid3{display:grid; grid-template-columns:repeat(3,1fr); gap:14px;}
+  @media (max-width:760px){.grid2,.grid3{grid-template-columns:1fr;}}
+
+  .badge{
+    display:inline-block; font-size:.74rem; font-weight:700; letter-spacing:.03em; text-transform:uppercase;
+    padding:3px 10px; border-radius:999px; background:var(--aqua-100); color:var(--teal-700);
+  }
+
+  .callout{
+    border-radius:12px; padding:16px 18px; margin:16px 0; border:1px solid;
+  }
+  .callout.alert{background:var(--coral-100); border-color:#f3c7ac; color:#7a3113;}
+  .callout.alert h4{color:#9c3f10;}
+  .callout.tip{background:var(--aqua-100); border-color:#bfe2df; color:var(--teal-900);}
+  .callout.wood{background:var(--wood-100); border-color:#e4c8a7; color:#5a3c1c;}
+
+  .phrase{
+    background:var(--aqua-50); border-left:4px solid var(--teal-500); border-radius:6px;
+    padding:10px 14px; font-style:italic; color:var(--teal-900); margin:8px 0;
+  }
+
+  table{width:100%; border-collapse:collapse; margin:10px 0;}
+  th,td{padding:9px 10px; border-bottom:1px solid var(--line); text-align:left; font-size:.92rem;}
+  th{background:var(--aqua-100); color:var(--teal-900); font-family:'Poppins',sans-serif; font-size:.82rem;}
+  tr:last-child td{border-bottom:none;}
+
+  /* client card */
+  .client-head{display:flex; align-items:center; gap:14px; margin-bottom:10px;}
+  .client-avatar{
+    width:52px; height:52px; border-radius:50%; background:var(--teal-700); color:#fff;
+    display:flex; align-items:center; justify-content:center; font-family:'Poppins',sans-serif; font-weight:700; font-size:1.2rem;
+  }
+  .motifreins{display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-top:10px;}
+  @media (max-width:600px){.motifreins{grid-template-columns:1fr;}}
+  .motifreins .box{border-radius:10px; padding:14px;}
+  .motifreins .ok{background:var(--good-bg);}
+  .motifreins .warn{background:var(--bad-bg);}
+  .motifreins ul{margin:6px 0 0; padding-left:18px;}
+  .motifreins li{margin-bottom:4px;}
+
+  /* steps */
+  .steps{display:flex; flex-direction:column; gap:10px;}
+  .step{border:1px solid var(--line); border-radius:12px; overflow:hidden;}
+  .step summary{
+    list-style:none; cursor:pointer; padding:14px 18px; display:flex; align-items:center; gap:12px;
+    font-family:'Poppins',sans-serif; font-weight:600; color:var(--teal-900); background:#fff;
+  }
+  .step summary::-webkit-details-marker{display:none;}
+  .step summary .num{
+    width:30px; height:30px; border-radius:50%; background:var(--teal-700); color:#fff;
+    display:flex; align-items:center; justify-content:center; font-size:.9rem; flex:0 0 auto;
+  }
+  .step summary .arrow{margin-left:auto; transition:transform .2s;}
+  .step[open] summary .arrow{transform:rotate(90deg);}
+  .step[open] summary{border-bottom:1px solid var(--line); background:var(--aqua-50);}
+  .step .body{padding:16px 18px 18px;}
+
+  /* model cards */
+  .models{display:grid; grid-template-columns:repeat(2,1fr); gap:16px;}
+  @media (max-width:760px){.models{grid-template-columns:1fr;}}
+  .model{border:1px solid var(--line); border-radius:14px; overflow:hidden; background:#fff;}
+  .model summary{
+    list-style:none; cursor:pointer; padding:16px 18px; display:flex; justify-content:space-between; align-items:center;
+    background:linear-gradient(120deg,var(--teal-700),var(--teal-600)); color:#fff;
+  }
+  .model summary::-webkit-details-marker{display:none;}
+  .model summary .name{font-family:'Poppins',sans-serif; font-weight:700; font-size:1.05rem;}
+  .model summary .price{font-family:'Poppins',sans-serif; font-weight:700;}
+  .model .body{padding:16px 18px;}
+  .model.entry summary{background:linear-gradient(120deg,#8a8f6e,#b4a26a);}
+  .model .flag{
+    display:inline-block; font-size:.72rem; font-weight:700; text-transform:uppercase; letter-spacing:.03em;
+    background:rgba(255,255,255,.25); padding:2px 9px; border-radius:999px; margin-top:4px;
+  }
+
+  /* objections */
+  .objection{border:1px solid var(--line); border-radius:12px; padding:16px 18px; margin-bottom:14px;}
+  .objection h4{display:flex; align-items:center; gap:8px; color:var(--coral-600);}
+
+  /* practice / cab */
+  .cab-row{display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px; margin-bottom:10px;}
+  @media (max-width:700px){.cab-row{grid-template-columns:1fr;}}
+  .cab-row label{font-size:.74rem; font-weight:700; text-transform:uppercase; letter-spacing:.03em; color:var(--teal-700); display:block; margin-bottom:4px;}
+  .cab-row textarea, .cab-row input{
+    width:100%; border:1px solid var(--line); border-radius:8px; padding:9px 10px; font-family:'Inter',sans-serif;
+    font-size:.9rem; resize:vertical; min-height:56px;
+  }
+  .cab-example .cab-row textarea, .cab-example .cab-row input{background:var(--aqua-50);}
+
+  /* quiz */
+  .qz{border:1px solid var(--line); border-radius:12px; padding:16px 18px; margin-bottom:14px;}
+  .qz .qtext{font-weight:600; margin-bottom:10px; font-family:'Poppins',sans-serif; color:var(--teal-900); font-size:.98rem;}
+  .qz label{
+    display:block; padding:9px 12px; border:1px solid var(--line); border-radius:8px; margin-bottom:7px;
+    cursor:pointer; font-size:.92rem;
+  }
+  .qz label:hover{border-color:var(--teal-500);}
+  .qz label input{margin-right:8px;}
+  .qz .fb{display:none; margin-top:8px; padding:9px 12px; border-radius:8px; font-size:.88rem;}
+  .qz.correct label.sel{background:var(--good-bg); border-color:var(--good);}
+  .qz.wrong label.sel{background:var(--bad-bg); border-color:var(--bad);}
+  .qz.correct .fb.ok, .qz.wrong .fb.ko{display:block;}
+  .qz.correct .fb.ok{background:var(--good-bg); color:#1f6b42;}
+  .qz.wrong .fb.ko{background:var(--bad-bg); color:#9c3326;}
+
+  .btn{
+    display:inline-block; background:var(--teal-700); color:#fff; border:none; border-radius:10px;
+    padding:12px 22px; font-family:'Poppins',sans-serif; font-weight:600; font-size:.95rem; cursor:pointer;
+  }
+  .btn:hover{background:var(--teal-600);}
+  .btn.secondary{background:transparent; color:var(--teal-700); border:1px solid var(--teal-500);}
+
+  #quizResult{
+    display:none; margin-top:14px; padding:18px; border-radius:12px; text-align:center;
+    font-family:'Poppins',sans-serif; font-weight:700; font-size:1.1rem;
+  }
+
+  /* checklist */
+  .checklist{list-style:none; padding:0; margin:0;}
+  .checklist li{
+    display:flex; align-items:flex-start; gap:10px; padding:10px 0; border-bottom:1px solid var(--line);
+  }
+  .checklist li:last-child{border-bottom:none;}
+  .checklist input[type=checkbox]{width:19px; height:19px; margin-top:2px; accent-color:var(--teal-600); flex:0 0 auto;}
+  .checklist span.done{text-decoration:line-through; color:var(--ink-soft);}
+
+  .note{font-size:.83rem; color:var(--ink-soft); font-style:italic;}
+  footer{text-align:center; padding:26px 20px; color:var(--ink-soft); font-size:.85rem;}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <span class="eyebrow">Défi Viva Vente — LP Isabelle Viviani</span>
+    <h1>🛁 Cas vendeur Magiline — Prépa à l'épreuve</h1>
+    <div class="sub">Vous êtes conseiller(ère) commercial(e) chez Piscines Magiline Épinal. Entraînez-vous avant votre rendez-vous avec la famille Martin, face au jury de professionnels.</div>
+    <div class="countdown">📅 Épreuve : <strong>lundi 15 février 2027</strong> — <span id="cd"></span></div>
+  </div>
+</header>
+
+<nav class="tabs">
+  <div class="wrap" id="tabsBar"></div>
+</nav>
+
+<main class="wrap">
+
+  <!-- 1. MISSION -->
+  <section class="panel" data-panel="mission">
+    <div class="card">
+      <span class="badge">Le contexte</span>
+      <h2>🎯 Votre mission</h2>
+      <p><strong>Conseiller une famille pour l'achat d'un spa, pour 2 adultes + 2 enfants.</strong></p>
+      <p>Piscines Magiline est un distributeur officiel de spas et piscines haut de gamme pour particuliers, situé à Épinal. L'entreprise propose des solutions complètes : spas, piscines, accessoires, installation, entretien et SAV.</p>
+      <div class="callout tip">
+        <h4>Ce que l'entreprise veut offrir à ses clients</h4>
+        <ul>
+          <li>Des produits fiables et de qualité, adaptés aux besoins de chacun</li>
+          <li>Un accompagnement dans le choix et l'installation du spa</li>
+          <li>Un suivi complet : entretien, garanties, service après-vente</li>
+        </ul>
+      </div>
+    </div>
+    <div class="card">
+      <h3>Vos missions du jour</h3>
+      <div class="grid2">
+        <div class="motifreins" style="grid-template-columns:1fr;">
+          <div class="box ok">
+            <ul>
+              <li>Identifier les besoins et attentes du client pour un spa à domicile</li>
+              <li>Proposer un modèle adapté à la famille et à l'espace disponible</li>
+            </ul>
+          </div>
+        </div>
+        <div class="motifreins" style="grid-template-columns:1fr;">
+          <div class="box ok">
+            <ul>
+              <li>Argumenter sur les équipements, le confort, la sécurité et les services inclus</li>
+              <li>Accueillir, conseiller et orienter la famille vers la meilleure solution</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="callout wood">
+      <h4>💡 À quoi sert ce tuto ?</h4>
+      <p style="margin-bottom:0">Passez par chaque onglet dans l'ordre : le client, les 5 étapes de la vente, la gamme de spas, les objections, un entraînement à l'argumentaire, un quiz pour vérifier vos connaissances, puis la checklist du jour J.</p>
+    </div>
+  </section>
+
+  <!-- 2. CLIENT -->
+  <section class="panel" data-panel="client">
+    <div class="card">
+      <span class="badge">Votre rendez-vous client</span>
+      <div class="client-head" style="margin-top:10px;">
+        <div class="client-avatar">M</div>
+        <div>
+          <h2 style="margin-bottom:2px;">Famille Martin</h2>
+          <div class="note">À connaître par cœur avant l'épreuve</div>
+        </div>
+      </div>
+      <table>
+        <tr><th style="width:160px;">Composition</th><td>2 adultes + 2 enfants (8 à 15 ans)</td></tr>
+        <tr><th>Profession</th><td>M. Martin : technicien de maintenance industrielle — Mme Martin : infirmière libérale</td></tr>
+        <tr><th>Budget</th><td><strong>15 000 € maximum</strong></td></tr>
+        <tr><th>Situation</th><td>Maison avec jardin, terrasse en béton existante, arrivée électrique disponible</td></tr>
+        <tr><th>Souhait</th><td>Un spa familial 5 places, sécurisé pour les enfants, confortable et durable</td></tr>
+      </table>
+      <div class="motifreins">
+        <div class="box ok">
+          <strong>✅ Motivations</strong>
+          <ul>
+            <li>Détente et bien-être pour toute la famille</li>
+            <li>Qualité et sécurité</li>
+            <li>Services inclus (installation et SAV)</li>
+          </ul>
+        </div>
+        <div class="box warn">
+          <strong>⚠️ Freins</strong>
+          <ul>
+            <li>Prix élevé</li>
+            <li>Entretien et installation du spa</li>
+            <li>Espace disponible dans le jardin</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="callout tip">
+      <h4>💡 Comment utiliser cette fiche</h4>
+      <p style="margin-bottom:0">Dès l'étape <em>Découverte</em>, reformulez ces informations avec vos propres questions pour montrer que vous écoutez vraiment la famille — ne récitez pas la fiche telle quelle.</p>
+    </div>
+  </section>
+
+  <!-- 3. ETAPES -->
+  <section class="panel" data-panel="etapes">
+    <div class="card">
+      <span class="badge">Méthode</span>
+      <h2>🗣️ Les 5 étapes de l'entretien de vente</h2>
+      <p>Cliquez sur chaque étape pour revoir ce qu'il faut faire et une amorce de phrase possible.</p>
+      <div class="steps" id="stepsList"></div>
+    </div>
+    <div class="callout alert">
+      <h4>⚠️ Note du professionnel — « Challenge »</h4>
+      <p>Attention : les modèles <strong>JASMIN</strong> et <strong>CAMÉLIA</strong> sont des modèles « prix d'appel ». Ils ont un niveau d'équipement et des garanties moins intéressants que le reste de la gamme.</p>
+      <p style="margin-bottom:0"><strong>Le client va souvent se diriger spontanément vers ces modèles. À vous de l'aider à choisir un modèle plus complet, avec une meilleure marge pour l'entreprise !</strong></p>
+    </div>
+  </section>
+
+  <!-- 4. GAMME -->
+  <section class="panel" data-panel="gamme">
+    <div class="card">
+      <span class="badge">Produit</span>
+      <h2>🛁 La gamme de spas Magiline 2027</h2>
+      <p class="note">Tarifs TTC, livraison et installation comprises (hors grutage : frais de grue non inclus).</p>
+      <div class="models" id="modelsList"></div>
+    </div>
+    <div class="callout wood">
+      <h4>🧮 Repère budget</h4>
+      <p>Le budget de la famille Martin est de <strong>15 000 €</strong>.</p>
+      <p>Le <strong>LOTUS</strong> (14 922 €) entre dans ce budget, avec un petit reste pour un accessoire économique. Le <strong>DALHIA</strong> (15 624 €) dépasse déjà le budget à lui seul, avant même d'ajouter un accessoire.</p>
+      <p style="margin-bottom:0">Gardez ce calcul en tête pour construire votre argumentaire — mais c'est à vous de décider, pendant l'entretien, quel modèle défendre selon ce que dira la famille.</p>
+    </div>
+    <div class="card">
+      <h3>Accessoires (en option, en supplément du prix du spa)</h3>
+      <p class="note">Ne pas proposer systématiquement : seulement s'ils répondent à un besoin exprimé par le client.</p>
+      <table id="accTable"></table>
+    </div>
+  </section>
+
+  <!-- 5. OBJECTIONS -->
+  <section class="panel" data-panel="objections">
+    <div class="card">
+      <span class="badge">Anticiper</span>
+      <h2>💬 Gérer les objections de la famille Martin</h2>
+      <p>Les 3 freins identifiés dans la fiche client vont probablement revenir pendant l'entretien. Préparez une réponse pour chacun.</p>
+      <div id="objList"></div>
+    </div>
+  </section>
+
+  <!-- 6. ENTRAINEMENT CAB -->
+  <section class="panel" data-panel="cab">
+    <div class="card">
+      <span class="badge">Entraînement</span>
+      <h2>✍️ Construire un argumentaire avec la méthode CAB</h2>
+      <p><strong>C</strong>aractéristique → ce que le produit EST. <strong>A</strong>vantage → ce que cette caractéristique APPORTE. <strong>B</strong>énéfice → ce que cela CHANGE pour la famille Martin précisément.</p>
+      <div class="callout tip cab-example">
+        <h4>Exemple traité — fonction cascade (Lotus / Dalhia)</h4>
+        <div class="cab-row">
+          <div><label>Caractéristique</label><textarea readonly>Fonction cascade : une buse supplémentaire pour un massage complet</textarea></div>
+          <div><label>Avantage</label><textarea readonly>Un massage plus intense et plus complet qu'avec un jet classique</textarea></div>
+          <div><label>Bénéfice pour la famille Martin</label><textarea readonly>Toute la famille profite d'un moment de détente renforcé, sans dépasser son budget si le Lotus est choisi</textarea></div>
+        </div>
+      </div>
+      <h3 style="margin-top:22px;">À vous ! Préparez 2 à 3 arguments CAB</h3>
+      <p class="note">Choisissez une caractéristique du spa ou d'un accessoire (garanties, isolation ECOSPA+NORDIC, escalier résine, lève-couverture…) et reliez-la à un besoin précis de la famille Martin.</p>
+      <div id="cabBlanks"></div>
+      <p class="note">⚠️ Ce brouillon ne s'enregistre pas : recopiez vos meilleures idées sur votre fiche avant de fermer la page.</p>
+    </div>
+  </section>
+
+  <!-- 7. QUIZ -->
+  <section class="panel" data-panel="quiz">
+    <div class="card">
+      <span class="badge">Vérifiez-vous</span>
+      <h2>✅ Quiz final</h2>
+      <p>Répondez aux 8 questions puis cliquez sur « Corriger » pour voir votre score.</p>
+      <div id="quizList"></div>
+      <button class="btn" id="checkQuiz">Corriger</button>
+      <div id="quizResult"></div>
+    </div>
+  </section>
+
+  <!-- 8. CHECKLIST -->
+  <section class="panel" data-panel="checklist">
+    <div class="card">
+      <span class="badge">Jour J</span>
+      <h2>📋 Checklist avant l'entretien</h2>
+      <h3>Votre check-list pendant l'entretien</h3>
+      <ul class="checklist" id="checklistEntretien"></ul>
+    </div>
+    <div class="card">
+      <h3>Avant d'entrer dans la salle</h3>
+      <p class="note">Conseils généraux de préparation, en plus de la fiche officielle.</p>
+      <ul class="checklist" id="checklistAvant"></ul>
+    </div>
+  </section>
+
+</main>
+
+<footer>Prépa Défi Viva Vente — cas Magiline — LP Isabelle Viviani, Épinal.</footer>
+
+<script>
+/* ---------------- data ---------------- */
+const TABS = [
+  {id:"mission", label:"Ma mission"},
+  {id:"client", label:"Le client"},
+  {id:"etapes", label:"Les 5 étapes"},
+  {id:"gamme", label:"La gamme"},
+  {id:"objections", label:"Les objections"},
+  {id:"cab", label:"Je m'entraîne"},
+  {id:"quiz", label:"Quiz final"},
+  {id:"checklist", label:"Checklist jour J"},
+];
+
+const STEPS = [
+  {n:1, title:"Accueil", what:"Se présenter, mettre le client à l'aise.", phrase:"Bonjour, bienvenue chez Piscines Magiline, je suis… En quoi puis-je vous aider aujourd'hui ?"},
+  {n:2, title:"Découverte", what:"Poser des questions : besoin, budget, espace, usage.", phrase:"Pour bien vous conseiller, combien de personnes utiliseront le spa ? / Avez-vous une idée du budget que vous souhaitez consacrer à ce projet ?"},
+  {n:3, title:"Argumentation", what:"Présenter le modèle choisi et ses avantages.", phrase:"Ce modèle vous propose…, ce qui répond bien à votre besoin de…"},
+  {n:4, title:"Objections", what:"Écouter et répondre aux freins du client.", phrase:"Je comprends votre remarque sur le prix. Sachez que…"},
+  {n:5, title:"Conclusion", what:"Valider l'accord et remercier le client.", phrase:"Êtes-vous d'accord pour que l'on prépare votre commande ? Merci pour votre confiance, nous allons prendre grand soin de votre projet."},
+];
+
+const MODELS = [
+  {name:"CAMÉLIA", price:"8 717 €", entry:true,
+   specs:[["Dimensions","216 x 167 x 74 cm"],["Contenance","≈ 780 L"],["Places","3 places (2 allongées + 1 assise)"],["Jets au total","26"],["Panneau de contrôle","BALBOA® TP500"],["Éclairage","1 LED chromothérapie"],["Isolation","NORDIC (socle et parois)"],["Garanties","Structure 5 ans / Acrylique 3 ans / Composants 2 ans"]],
+   args:["Le modèle le plus accessible de la sélection : un bon point d'entrée pour un budget serré.","Format compact (216 x 167 cm), adapté à une petite terrasse.","Chromothérapie incluse pour l'ambiance détente."]},
+  {name:"JASMIN", price:"10 217 €", entry:true,
+   specs:[["Dimensions","198 x 198 x 74 cm"],["Contenance","≈ 935 L"],["Places","5 places (2 allongées + 3 assises)"],["Jets au total","43 (dont jets d'air)"],["Panneau de contrôle","BALBOA® TP500"],["Éclairage","1 LED chromothérapie"],["Isolation","NORDIC (socle et parois)"],["Garanties","Structure 5 ans / Acrylique 3 ans / Composants 2 ans"]],
+   args:["Un bon point d'entrée pour un budget serré, tout en offrant 5 places.","5 places assises/allongées : correspond à la demande de la famille (2 adultes + 2 enfants).","Chromothérapie incluse pour l'ambiance détente."]},
+  {name:"LOTUS", price:"14 922 €", entry:false,
+   specs:[["Dimensions","216 x 216 x 92 cm"],["Contenance","≈ 1095 L"],["Places","5 places (2 allongées + 3 assises)"],["Jets au total","57 (dont 1 buse cascade)"],["Panneau de contrôle","BALBOA® SpaTouch"],["Éclairage","3 LEDs chromothérapie"],["Isolation","NORDIC (socle) + ECOSPA (parois)"],["Garanties","Structure 15 ans / Acrylique 10 ans / Composants 2 ans"],["Options","Escalier et lève-couverture disponibles"]],
+   args:["Même capacité que Jasmin (5 places) mais nettement mieux équipé : 57 jets, fonction cascade, coque LUCITE® haut de gamme.","Garanties largement supérieures (15 ans structure / 10 ans acrylique) : argument fort face à un client soucieux de durabilité.","Un excellent compromis confort / sécurité / budget pour une famille."]},
+  {name:"DALHIA", price:"15 624 €", entry:false,
+   specs:[["Dimensions","216 x 216 x 92 cm"],["Contenance","≈ 1180 L"],["Places","6 places (1 allongée + 5 assises)"],["Jets au total","57 (dont 1 buse cascade)"],["Panneau de contrôle","BALBOA® SpaTouch"],["Éclairage","3 LEDs chromothérapie"],["Isolation","NORDIC (socle) + ECOSPA (parois)"],["Garanties","Structure 15 ans / Acrylique 10 ans / Composants 2 ans"],["Options","Escalier et lève-couverture disponibles"]],
+   args:["Une place assise de plus que Jasmin/Lotus (6 places), avec le même excellent niveau de garanties que Lotus.","Confort et finitions très haut de gamme (cuve effet inox, 57 jets).","Adapté à une famille nombreuse ou qui reçoit souvent."]},
+];
+
+const ACCESSORIES = [
+  ["Escalier résine (marron, café, gris)", "Marche(s) d'accès en résine antidérapante. Sécurise la montée/descente, notamment pour les enfants.", "150,00 €"],
+  ["Escalier composite Magiline", "Version haut de gamme en bois composite, plus solide et plus esthétique, intégrée à l'habillage du spa.", "640,00 €"],
+  ["Lève-couverture", "Bras mécanique qui soulève et replie la bâche isotherme : évite de porter seul une couverture lourde et mouillée.", "340,00 €"],
+  ["Pack traitement", "Kit de produits pour l'entretien de l'eau, en complément du système de désinfection UV déjà intégré.", "109,00 €"],
+];
+
+const OBJECTIONS = [
+  {titre:"« C'est trop cher… »", conseil:"Ne baissez pas le prix : revenez sur ce que le prix inclut déjà (livraison, installation, garanties, SAV) et sur le coût de fonctionnement très bas grâce à la technologie ECOSPA + NORDIC (environ 24 €/mois, jusqu'à 80 % d'économies d'énergie).", phrase:"Je comprends votre remarque sur le prix. Sachez que la livraison et l'installation sont déjà comprises, et que ce spa consomme très peu : environ 24 € par mois grâce à sa double isolation."},
+  {titre:"« L'entretien et l'installation nous inquiètent »", conseil:"Rappelez l'accompagnement complet de Piscines Magiline Épinal : conseil, installation, entretien et SAV « de A à Z ». Mentionnez le pack traitement si c'est un vrai frein pour la famille.", phrase:"Vous n'êtes pas seuls : notre équipe s'occupe de l'installation et nous assurons le suivi (entretien, garanties, SAV) tout au long de la vie de votre spa."},
+  {titre:"« Nous ne sommes pas sûrs d'avoir la place dans le jardin »", conseil:"Reliez la question aux informations déjà connues : terrasse en béton existante et arrivée électrique disponible. Comparez les dimensions des modèles pour rassurer sur l'encombrement réel.", phrase:"Vous avez déjà une terrasse en béton et une arrivée électrique disponible, ce qui simplifie beaucoup l'installation. Regardons ensemble les dimensions du modèle qui vous intéresse."},
+];
+
+const QUIZ = [
+  {q:"Quel est le budget maximum annoncé par la famille Martin ?", options:["10 000 €","15 000 €","18 000 €"], correct:1},
+  {q:"Combien de personnes composent la famille Martin ?", options:["2 adultes + 1 enfant","2 adultes + 2 enfants","3 adultes + 1 enfant"], correct:1},
+  {q:"Quelle est la 2ᵉ étape de l'entretien de vente ?", options:["Argumentation","Découverte","Conclusion"], correct:1},
+  {q:"D'après la note du professionnel, quel est le « piège » à éviter ?", options:["Oublier de parler des accessoires","Laisser le client partir sans conclure","Laisser le client se diriger seul vers Camélia ou Jasmin, des modèles « prix d'appel » moins équipés"], correct:2},
+  {q:"Quel modèle respecte le budget de 15 000 € tout en offrant 15 ans de garantie structure ?", options:["Jasmin","Lotus","Dalhia"], correct:1},
+  {q:"Lequel de ces éléments N'EST PAS un frein identifié chez la famille Martin ?", options:["Le prix élevé","L'espace disponible dans le jardin","Le manque de confiance envers la marque Magiline"], correct:2},
+  {q:"Grâce à la technologie ECOSPA + NORDIC, quel est le coût de fonctionnement mensuel estimé d'un spa Magiline ?", options:["Environ 24 €/mois","Environ 80 €/mois","Environ 10 €/mois"], correct:0},
+  {q:"Quel accessoire est particulièrement pertinent à mettre en avant pour une famille avec de jeunes enfants ?", options:["Le pack traitement","L'escalier résine ou composite (sécurité de l'accès)","Le lève-couverture uniquement"], correct:1},
+];
+
+const CHECK_ENTRETIEN = [
+  "Identifier les besoins précis de la famille",
+  "Proposer le spa Magiline le plus adapté (capacité, confort, sécurité)",
+  "Valoriser les services inclus (installation, formation, garantie)",
+  "Répondre aux objections éventuelles",
+  "Conclure la vente avec un client satisfait",
+];
+const CHECK_AVANT = [
+  "J'ai relu la fiche client (famille Martin) sans la regarder pendant l'entretien",
+  "Je connais les 4 modèles et leurs prix de mémoire",
+  "J'ai repéré le modèle que le budget permet (Lotus) et pourquoi",
+  "J'ai préparé au moins 2 réponses aux objections",
+  "Je suis en tenue professionnelle et à l'heure",
+];
+
+/* ---------------- render ---------------- */
+function el(tag, cls, html){const e=document.createElement(tag); if(cls)e.className=cls; if(html!==undefined)e.innerHTML=html; return e;}
+
+// tabs
+const tabsBar = document.getElementById("tabsBar");
+const visited = new Set();
+TABS.forEach((t,i)=>{
+  const b = el("button", i===0?"active":"", `<span class="dot"></span>${t.label}`);
+  b.dataset.id = t.id;
+  b.addEventListener("click", ()=>showPanel(t.id));
+  tabsBar.appendChild(b);
+});
+function showPanel(id){
+  document.querySelectorAll("section.panel").forEach(p=>p.classList.toggle("active", p.dataset.panel===id));
+  document.querySelectorAll("nav.tabs button").forEach(b=>{
+    b.classList.toggle("active", b.dataset.id===id);
+    if(b.dataset.id===id){ b.classList.add("visited"); visited.add(id); }
+  });
+  window.scrollTo({top:0, behavior:"smooth"});
+}
+visited.add("mission");
+document.querySelector('nav.tabs button[data-id="mission"]').classList.add("visited");
+showPanel("mission");
+
+// steps
+const stepsList = document.getElementById("stepsList");
+STEPS.forEach(s=>{
+  const d = el("details", "step");
+  d.innerHTML = `<summary><span class="num">${s.n}</span>${s.title}<span class="arrow">›</span></summary>
+    <div class="body"><p><strong>À faire :</strong> ${s.what}</p><div class="phrase">« ${s.phrase} »</div></div>`;
+  stepsList.appendChild(d);
+});
+
+// models
+const modelsList = document.getElementById("modelsList");
+MODELS.forEach(m=>{
+  const d = el("details", "model"+(m.entry?" entry":""));
+  const specsHtml = m.specs.map(([k,v])=>`<tr><th style="width:150px;">${k}</th><td>${v}</td></tr>`).join("");
+  const argsHtml = m.args.map(a=>`<li>${a}</li>`).join("");
+  d.innerHTML = `<summary><span>
+      <span class="name">${m.name}</span>
+      ${m.entry ? '<div class="flag">Modèle prix d\'appel ⚠️</div>' : '<div class="flag">Modèle complet ✓</div>'}
+    </span><span class="price">${m.price}</span></summary>
+    <div class="body">
+      <table>${specsHtml}</table>
+      <h4 style="margin-top:14px;">Arguments de vente</h4>
+      <ul>${argsHtml}</ul>
+    </div>`;
+  modelsList.appendChild(d);
+});
+
+// accessories table
+const accTable = document.getElementById("accTable");
+accTable.innerHTML = "<tr><th>Accessoire</th><th>À quoi ça sert ?</th><th>Prix</th></tr>" +
+  ACCESSORIES.map(([n,desc,p])=>`<tr><td><strong>${n}</strong></td><td>${desc}</td><td>${p}</td></tr>`).join("");
+
+// objections
+const objList = document.getElementById("objList");
+OBJECTIONS.forEach(o=>{
+  const d = el("div","objection");
+  d.innerHTML = `<h4>💬 ${o.titre}</h4><p>${o.conseil}</p><div class="phrase">« ${o.phrase} »</div>`;
+  objList.appendChild(d);
+});
+
+// cab blanks (3 rows)
+const cabBlanks = document.getElementById("cabBlanks");
+for(let i=1;i<=3;i++){
+  const row = el("div","cab-row");
+  row.innerHTML = `
+    <div><label>Caractéristique ${i}</label><textarea placeholder="Ex : garanties 15 ans structure…"></textarea></div>
+    <div><label>Avantage</label><textarea placeholder="Ce que ça apporte par rapport à un autre modèle…"></textarea></div>
+    <div><label>Bénéfice pour la famille Martin</label><textarea placeholder="Ce que ça change concrètement pour eux…"></textarea></div>`;
+  cabBlanks.appendChild(row);
+}
+
+// quiz
+const quizList = document.getElementById("quizList");
+QUIZ.forEach((q,qi)=>{
+  const wrap = el("div","qz");
+  wrap.dataset.qi = qi;
+  let optsHtml = q.options.map((opt,oi)=>`<label data-oi="${oi}"><input type="radio" name="q${qi}" value="${oi}"> ${opt}</label>`).join("");
+  wrap.innerHTML = `<div class="qtext">${qi+1}. ${q.q}</div>${optsHtml}
+    <div class="fb ok">✅ Bonne réponse !</div>
+    <div class="fb ko">❌ La bonne réponse était : « ${q.options[q.correct]} »</div>`;
+  quizList.appendChild(wrap);
+});
+document.getElementById("checkQuiz").addEventListener("click", ()=>{
+  let score = 0;
+  document.querySelectorAll(".qz").forEach(wrap=>{
+    const qi = +wrap.dataset.qi;
+    const checked = wrap.querySelector("input:checked");
+    wrap.classList.remove("correct","wrong");
+    wrap.querySelectorAll("label").forEach(l=>l.classList.remove("sel"));
+    if(!checked){ wrap.classList.add("wrong"); return; }
+    const oi = +checked.value;
+    checked.closest("label").classList.add("sel");
+    if(oi === QUIZ[qi].correct){ wrap.classList.add("correct"); score++; }
+    else{ wrap.classList.add("wrong"); }
+  });
+  const res = document.getElementById("quizResult");
+  res.style.display = "block";
+  let msg, bg, color;
+  if(score >= 7){ msg = `🎉 ${score}/8 — Vous êtes prêt(e) pour le jury !`; bg="var(--good-bg)"; color="#1f6b42"; }
+  else if(score >= 5){ msg = `👍 ${score}/8 — Pas mal, mais relisez encore un peu la gamme et la fiche client.`; bg="var(--wood-100)"; color="#5a3c1c"; }
+  else{ msg = `📚 ${score}/8 — Reprenez les onglets « Le client » et « La gamme » avant de continuer.`; bg="var(--bad-bg)"; color="#9c3326"; }
+  res.style.background = bg; res.style.color = color;
+  res.textContent = msg;
+});
+
+// checklists
+function buildChecklist(container, items){
+  items.forEach((txt,i)=>{
+    const li = el("li");
+    const id = container.id+"_"+i;
+    li.innerHTML = `<input type="checkbox" id="${id}"><label for="${id}"><span>${txt}</span></label>`;
+    const cb = li.querySelector("input");
+    const span = li.querySelector("span");
+    cb.addEventListener("change", ()=> span.classList.toggle("done", cb.checked));
+    container.appendChild(li);
+  });
+}
+buildChecklist(document.getElementById("checklistEntretien"), CHECK_ENTRETIEN);
+buildChecklist(document.getElementById("checklistAvant"), CHECK_AVANT);
+
+// countdown
+(function(){
+  const target = new Date("2027-02-15T09:00:00");
+  const now = new Date();
+  const diffDays = Math.ceil((target - now) / 86400000);
+  const cd = document.getElementById("cd");
+  cd.textContent = diffDays > 0 ? `il reste ${diffDays} jour${diffDays>1?"s":""}` : "c'est aujourd'hui !";
+})();
+</script>
+</body>
+</html>
